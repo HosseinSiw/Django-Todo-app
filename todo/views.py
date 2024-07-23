@@ -1,5 +1,5 @@
-from django.views.generic import TemplateView, ListView, DetailView
-
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView
+from django.urls import reverse_lazy
 from todo.models import Todo
 
 
@@ -25,3 +25,11 @@ class TodoDetailView(DetailView):
     #
     #     context['title'] = context['object'].title
     #     return context
+
+
+class TodoUpdateView(UpdateView):
+    model = Todo
+    context_object_name = 'todo'
+    fields = ['title', 'description']
+    template_name = 'todo/todo_update.html'
+    success_url = reverse_lazy('todo:my_todos')

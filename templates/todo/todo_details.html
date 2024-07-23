@@ -7,9 +7,10 @@
 <body>
     <h1>{{ todo.title }}</h1>
     <p>{{ todo.description }}</p>
-    <p>{{ todo.created_at }}</p>
+    <p>Crated at  : {{ todo.created_at }}</p>
+    <p>last update: {{ todo.updated_at }}</p>
 
-{#    <button class="btn btn-primary"><a href="{% url 'todo:update_todo' %}">Update</a></button>#}
+    <button class="btn btn-primary"><a href="{% url 'todo:todo_update' pk=todo.id %}">Update</a></button>
 {#    <button class="btn btn-primary"><a href="{% url 'todo:delete_todo' %}">Delete</a></button>#}
 
 </body>
