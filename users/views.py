@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -8,19 +9,19 @@ from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib import messages
 
 
-class LoginView(BaseLoginView):
+class CustomLoginView(BaseLoginView):
     template_name = 'users/login_page.html'
     redirect_authenticated_user = True
     success_url = reverse_lazy('home:home')
 
     def form_valid(self, form):
         messages.error(self.request, 'Invalid username or password or email')
-        return self.render_to_response(self.get_context_data(form=form))
+        return HttpResponseRedirect(self.success_url)
 
     def get_form(self, form_class=None):
         if form_class is None:
             form_class = LoginForm
-        return form_class(self.request, **self.get_form_kwargs())
+        return form_class(data=self.request.POST, **self.get_form_kwargs())
 
 
 class SignupView(View):
