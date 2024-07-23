@@ -1,9 +1,16 @@
-from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from todo.models import Todo
+from django.views.generic import (
+    ListView,
+    DetailView,
+    UpdateView,
+    CreateView,
+    DeleteView
+)
 
 
-class TodoListView(ListView):
+class TodoListView(ListView, LoginRequiredMixin):
     model = Todo
     template_name = 'todo/todo_list.html'
     context_object_name = 'todos'
@@ -13,7 +20,7 @@ class TodoListView(ListView):
         return Todo.objects.filter(user=self.request.user)
 
 
-class TodoDetailView(DetailView):
+class TodoDetailView(DetailView, LoginRequiredMixin):
     model = Todo
     context_object_name = 'todo'
     template_name = 'todo/todo_details.html'
@@ -27,7 +34,7 @@ class TodoDetailView(DetailView):
     #     return context
 
 
-class TodoUpdateView(UpdateView):
+class TodoUpdateView(UpdateView, LoginRequiredMixin):
     model = Todo
     context_object_name = 'todo'
     fields = ['title', 'description']
@@ -35,7 +42,7 @@ class TodoUpdateView(UpdateView):
     success_url = reverse_lazy('todo:my_todos')
 
 
-class TodoCreateView(CreateView):
+class TodoCreateView(CreateView, LoginRequiredMixin):
     model = Todo
     template_name = "todo/todo_create.html"
     fields = ['title', 'description']

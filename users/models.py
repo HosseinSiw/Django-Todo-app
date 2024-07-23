@@ -11,7 +11,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
     # Personal information fields
     email = models.EmailField(unique=True)
-    name = models.CharField(max_length=255, null=True, blank=True)
+    username = models.CharField(max_length=255, unique=True)
 
     # Permissions and status fields
     is_active = models.BooleanField(default=True)
@@ -22,7 +22,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["username",]
 
     objects = CustomUserManager()
 
