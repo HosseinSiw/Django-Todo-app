@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
 <body>
     <h1>{{ todo.title }}</h1>
     <p>{{ todo.description }}</p>
-    <p>Crated at  : {{ todo.created_at }}</p>
-    <p>last update: {{ todo.updated_at }}</p>
+    <p>Created at  : {{ todo.created_at }}</p>
+    <p>Last update: {{ todo.updated_at }}</p>
 
     <button class="btn btn-primary"><a href="{% url 'todo:todo_update' pk=todo.id %}">Update</a></button>
 {#    <button class="btn btn-primary"><a href="{% url 'todo:delete_todo' %}">Delete</a></button>#}

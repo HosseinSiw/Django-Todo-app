@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, ListView, DetailView, UpdateView
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from todo.models import Todo
 
@@ -33,3 +33,16 @@ class TodoUpdateView(UpdateView):
     fields = ['title', 'description']
     template_name = 'todo/todo_update.html'
     success_url = reverse_lazy('todo:my_todos')
+
+
+class TodoCreateView(CreateView):
+    model = Todo
+    template_name = "todo/todo_create.html"
+    fields = ['title', 'description']
+    context_object_name = 'todo'
+    success_url = reverse_lazy('todo:my_todos')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(TodoCreateView, self).form_valid(form)
+
