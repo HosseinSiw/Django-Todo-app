@@ -12,7 +12,7 @@
     <p>Last update: {{ todo.updated_at }}</p>
 
     <button class="btn btn-primary"><a href="{% url 'todo:todo_update' pk=todo.id %}">Update</a></button>
-{#    <button class="btn btn-primary"><a href="{% url 'todo:delete_todo' %}">Delete</a></button>#}
+    <button class="btn btn-primary"><a href="{% url 'todo:todo_delete' pk=todo.id %}">Delete</a></button>
 
 </body>
 </html>

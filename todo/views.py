@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.urls import reverse_lazy
 from todo.models import Todo
 
@@ -46,3 +46,9 @@ class TodoCreateView(CreateView):
         form.instance.user = self.request.user
         return super(TodoCreateView, self).form_valid(form)
 
+
+class TodoDeleteView(DeleteView):
+    model = Todo
+    context_object_name = 'todo'
+    success_url = reverse_lazy('todo:my_todos')
+    template_name = 'todo/todo_delete_confirm.html'
