@@ -8,12 +8,13 @@
     <h1>Welcome back {{ request.user.name }}</h1>
     <div>
         {% for todo in todos %}
-        	<h3>{{ todo.title }}</h3>
+            <h3>{{ todo.id }}. <a href="{% url 'todo:todo_details' pk=todo.id %}">{{ todo.title }}</a></h3>
             <hr/>
-            <p>{{ todo.time_created }}</p>
+            <p>{{ todo.created_at }}</p>
             <hr/>
+{#            <a href="{% url 'todo:update' %}" class="btn btn-primary">update</a>#}
+{#    <a class="btn btn-primary"><a href="{% url 'todo:delete_todo' %}">Delete</a></a>#}
         {% endfor %}
-
     </div>
 </body>
 </html>
