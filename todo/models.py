@@ -1,15 +1,15 @@
 from django.db import models
 
+from users.models import User
+
 
 class Todo(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, null=False, blank=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField()
-    done = models.BooleanField(default=False)
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
-
-    time_created = models.DateTimeField(auto_now_add=True)
-    time_updated = models.DateTimeField(auto_now=True)
+    is_done = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title
-
+        return f"Title: {self.title}"

@@ -1,10 +1,24 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="{% static 'home/css/styles.css' %}">
 </head>
 <body>
-$END$
+    <div class="container">
+        {% if request.user.is_authenticated %}
+            <h1> Welcome deer {{ request.user.email }}</h1>
+        {% else %}
+            <h1>Welcome to Todo App</h1>
+        {% endif %}
+        <p>A simple and efficient way to manage your tasks.</p>
+    {% if request.user.is_authenticated %}
+    	<a href="{% url 'todo:my_todos' %}">My tasks</a><hr><br>
+    {% endif %}
+
+    </div>
 </body>
 </html>
