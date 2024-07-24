@@ -1,27 +1,31 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
 from django.views import View
 from .forms import LoginForm, SignUpForm
 from django.contrib.auth import authenticate, login
 from .models import User
-from django.contrib.auth.views import LoginView as BaseLoginView
-from django.contrib import messages
+from django.contrib.messages import error, success
 
 
-class CustomLoginView(BaseLoginView):
+class CustomLoginView(View):
     template_name = 'users/login_page.html'
-    redirect_authenticated_user = True
-    success_url = reverse_lazy('home:home')
 
-    def form_valid(self, form):
-        messages.error(self.request, 'Invalid username or password or email')
-        return HttpResponseRedirect(self.success_url)
+    def get(self, request, *args, **kwargs):
+        form = LoginForm()
+        context = {'form': form}
+        return render(request, template_name=self.template_name, context=context)
 
-    def get_form(self, form_class=None):
-        if form_class is None:
-            form_class = LoginForm
-        return form_class(data=self.request.POST, **self.get_form_kwargs())
+    def post(self, request, *args, **kwargs):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username, email, password = form.cleaned_data['username'], form.cleaned_data['email'], form.cleaned_data['password']
+            user = authenticate(username=username, password=password, email=email)
+            if user is not None:
+                login(request, user)
+                success(request, 'You are now logged in!')
+                return redirect('home:home')
+            else:
+                error(request, 'Incorrect username or password!')
+                return redirect('users:login')
 
 
 class SignupView(View):
@@ -39,11 +43,11 @@ class SignupView(View):
             username = clean_date['username']
             email = clean_date['email']
             if password1 == password2:
-                User.objects.create(username=username, email=email, password=password1)
-                messages.success(request, "your account has been created successfully")
+                User.objects.create_user(username=username, email=email, password=password1)
+                success(request, "your account has been created successfully")
                 return redirect('users:login')
             else:
-                messages.error(request, "Passwords arent match")
+                error(request, "Passwords arent match")
                 return redirect('users:signup')
         else:
             return redirect("home:home")

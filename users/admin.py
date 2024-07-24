@@ -11,7 +11,7 @@ class CustomUserAdmin(UserAdmin):
 
     # Editing field sets
     fieldsets = (
-        ("Personal", {"fields": ("email", "username")}),
+        ("Personal", {"fields": ("email", "username", "password",)}),
         ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser")}),
     )
     # Add a new user fieldsets

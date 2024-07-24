@@ -10,7 +10,8 @@
 <body>
     <div class="container">
         {% if request.user.is_authenticated %}
-            <h1> Welcome dear {{ request.user.email }}</h1>
+            <h1> Welcome dear {{ request.user.username }}</h1>
+            <a href="{% url 'users:logout' %}">logout</a>
         {% else %}
             <h1>Welcome to Todo App</h1>
             <a href="{% url 'users:signup' %}">signup</a><hr/>
