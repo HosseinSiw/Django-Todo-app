@@ -18,10 +18,10 @@ class CustomLoginView(View):
         form = LoginForm(request.POST)
         if form.is_valid():
             username, email, password = form.cleaned_data['username'], form.cleaned_data['email'], form.cleaned_data['password']
-            user = authenticate(username=username, password=password, email=email)
+            user = authenticate(password=password, email=email)
             if user is not None:
                 login(request, user)
-                success(request, 'You are now logged in!')
+                success(request, f'You are now logged in! as {request.user.username}')
                 return redirect('home:home')
             else:
                 error(request, 'Incorrect username or password!')
