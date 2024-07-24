@@ -12,7 +12,8 @@
             <p>{{ todo.created_at }}</p>
 
             <a href="{% url 'todo:todo_update' pk=todo.id %}" class="btn btn-primary">update</a>
-    <a href="{% url 'todo:todo_delete' pk=todo.id %}" class="btn btn-danger">Delete</a>
+            <a href="{% url 'todo:todo_delete' pk=todo.id %}" class="btn btn-danger">Delete</a>
+            <a href="{% url 'todo:todo_done' pk=todo.id %}" class="btn btn-info">Done</a>
             <hr>
         {% endfor %}
     </div>

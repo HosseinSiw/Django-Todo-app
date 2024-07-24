@@ -13,5 +13,6 @@
 
     <button class="btn btn-primary"><a href="{% url 'todo:todo_update' pk=todo.id %}" class="link-info">Update</a></button>
     <button class="btn btn-primary"><a href="{% url 'todo:todo_delete' pk=todo.id %}" class="link-info">Delete</a></button>
+    <a href="{% url 'todo:todo_done' pk=todo.id %}" class="btn btn-info">Done</a>
 
 {% endblock %}

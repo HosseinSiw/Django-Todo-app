@@ -7,14 +7,31 @@ from django.contrib.messages import error, success
 
 
 class CustomLoginView(View):
+    """
+       Class-based view for handling user logins.
+
+       This view displays the login form on GET requests and processes login attempts on POST requests.
+       Upon successful authentication, the user is redirected to the home page; otherwise, an error message is displayed.
+    """
     template_name = 'users/login_page.html'
 
     def get(self, request, *args, **kwargs):
+        """
+                Handles GET requests to display the login form.
+
+                Initializes and renders the LoginForm with the login page template.
+        """
         form = LoginForm()
         context = {'form': form}
         return render(request, template_name=self.template_name, context=context)
 
     def post(self, request, *args, **kwargs):
+        """
+                Handles POST requests to process login attempts.
+
+                Validates the submitted form data, authenticates the user, logs them in if valid,
+                and redirects to the home page upon success. Displays an error message if login fails.
+        """
         form = LoginForm(request.POST)
         if form.is_valid():
             username, email, password = form.cleaned_data['username'], form.cleaned_data['email'], form.cleaned_data['password']
@@ -29,13 +46,25 @@ class CustomLoginView(View):
 
 
 class SignupView(View):
+    """
+        Class-based view for handling user signups.
+        This view displays the signup form on GET requests and processes signup attempts on POST requests.
+        Upon successful registration, the user is redirected to the login page; otherwise, an error message is displayed.
+    """
     form = SignUpForm
 
     def get(self, request):
+
         context = {'form': self.form()}
         return render(request, template_name="users/signup_page.html", context=context)
 
     def post(self, request):
+        """
+            Handles POST requests to process signup attempts.
+
+            Validates the submitted form data, creates a new user if valid,
+            and redirects to the login page upon success. Displays an error message if signup fails.
+        """
         form = self.form(request.POST)
         if form.is_valid():
             clean_date = form.cleaned_data
@@ -51,7 +80,3 @@ class SignupView(View):
                 return redirect('users:signup')
         else:
             return redirect("home:home")
-
-
-class ProfileView(View):
-    pass

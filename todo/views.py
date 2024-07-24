@@ -13,6 +13,9 @@ from django.views.generic import (
 
 
 class TodoListView(ListView, LoginRequiredMixin):
+    """
+    This class will represent the todo's list view
+    """
     model = Todo
     template_name = 'todo/todo_list.html'
     context_object_name = 'todos'
@@ -23,6 +26,9 @@ class TodoListView(ListView, LoginRequiredMixin):
 
 
 class TodoDetailView(DetailView, LoginRequiredMixin):
+    """
+    This class will represent the detail page of a single-Todo-object.
+    """
     model = Todo
     context_object_name = 'todo'
     template_name = 'todo/todo_details.html'
@@ -36,7 +42,13 @@ class TodoDetailView(DetailView, LoginRequiredMixin):
     #     return context
 
 
-class TodoUpdateView(UpdateView, LoginRequiredMixin):
+class TodoUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    Class-based view for updating and existing Todo item.
+
+    This view handles the modification of an existing Todo object via a form submission.
+    It ensures that only authenticated users can update their own Todos.
+    """
     model = Todo
     context_object_name = 'todo'
     fields = ['title', 'description']
@@ -44,7 +56,13 @@ class TodoUpdateView(UpdateView, LoginRequiredMixin):
     success_url = reverse_lazy('todo:my_todos')
 
 
-class TodoCreateView(CreateView, LoginRequiredMixin):
+class TodoCreateView(LoginRequiredMixin, CreateView):
+    """
+    Class-based view for creating new Todo items.
+
+    This view handles the creation of new Todo objects via a form submission.
+    It ensures that only authenticated users can create new Todos.
+    """
     model = Todo
     template_name = "todo/todo_create.html"
     fields = ['title', 'description']
@@ -52,11 +70,21 @@ class TodoCreateView(CreateView, LoginRequiredMixin):
     success_url = reverse_lazy('todo:my_todos')
 
     def form_valid(self, form):
+        """
+        Hook method to save the form data and set the current user as the creator.
+
+        Overrides the default form_valid method to assign the current user to the form instance.
+        """
         form.instance.user = self.request.user
-        return super(TodoCreateView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class TodoDeleteView(DeleteView):
+    """
+    Class-based view for deleting a Todo item.
+
+    This view handles the deletion of a Todo object identified by its primary key.
+    """
     model = Todo
     context_object_name = 'todo'
     success_url = reverse_lazy('todo:my_todos')
@@ -64,7 +92,18 @@ class TodoDeleteView(DeleteView):
 
 
 class TodoDoneView(View):
+    """
+    Class-based view for marking a Todo item as completed.
+
+    This view sets the 'done' attribute of a Todo object to True, indicating completion.
+    """
+
     def get(self, request, pk, *args, **kwargs):
+        """
+        Handles GET requests to mark a Todo item as completed.
+
+        Retrieves the Todo item by its primary key, marks it as done, and redirects to the todos list.
+        """
         todo = Todo.objects.get(pk=pk)
         todo.done = True
         return redirect("todo:my_todos")
