@@ -51,3 +51,7 @@ class SignupView(View):
                 return redirect('users:signup')
         else:
             return redirect("home:home")
+
+
+class ProfileView(View):
+    pass

@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from todo.models import Todo
+from django.views import View
 from django.views.generic import (
     ListView,
     DetailView,
@@ -59,3 +61,10 @@ class TodoDeleteView(DeleteView):
     context_object_name = 'todo'
     success_url = reverse_lazy('todo:my_todos')
     template_name = 'todo/todo_delete_confirm.html'
+
+
+class TodoDoneView(View):
+    def get(self, request, pk, *args, **kwargs):
+        todo = Todo.objects.get(pk=pk)
+        todo.done = True
+        return redirect("todo:my_todos")
