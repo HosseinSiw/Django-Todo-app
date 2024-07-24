@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends 'base.html' %}
+{% block head %}
     <meta charset="UTF-8">
     <title>Title</title>
+{% endblock head %}
 
-</head>
-<body>
+{% block content %}
+
     <h1>{{ todo.title }}</h1>
     <p>{{ todo.description }}</p>
     <p>Created at  : {{ todo.created_at }}</p>
     <p>Last update: {{ todo.updated_at }}</p>
 
-    <button class="btn btn-primary"><a href="{% url 'todo:todo_update' pk=todo.id %}">Update</a></button>
-    <button class="btn btn-primary"><a href="{% url 'todo:todo_delete' pk=todo.id %}">Delete</a></button>
+    <button class="btn btn-primary"><a href="{% url 'todo:todo_update' pk=todo.id %}" class="link-info">Update</a></button>
+    <button class="btn btn-primary"><a href="{% url 'todo:todo_delete' pk=todo.id %}" class="link-info">Delete</a></button>
 
-</body>
-</html>
+{% endblock %}

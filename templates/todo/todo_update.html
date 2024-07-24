@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends 'base.html' %}
+{% block head %}
+	<meta charset="UTF-8">
     <title>Title</title>
-</head>
-<body>
+{% endblock %}
+{% block content %}
     <h1>Editing {{ todo.title }}</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Edit</button>
+        <button type="submit" class="btn btn-info">Edit</button>
     </form>
+{% endblock %}
 
-</body>
-</html>

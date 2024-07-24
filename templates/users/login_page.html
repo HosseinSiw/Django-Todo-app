@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+    {% block head %}
+        <title>Login</title>
+    {% endblock head %}
+{% block content %}
+
   <h2>Login</h2>
   {%if messages%}
         {% for message in messages%}
@@ -18,7 +18,7 @@
   <form method="post">
     {{ form.as_p }}
       {% csrf_token %}
-    <button type="submit">Login</button>
+    <button type="submit" class="btn btn-primary">Login</button>
   </form>
-</body>
-</html>
+{% endblock %}
+

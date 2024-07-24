@@ -1,17 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+{% extends 'base.html' %}
 
-</head>
-<body>
-    <h1>Deleting {{ todo.title }}</h1>
+{% block head %}
+	<meta charset="UTF-8">
+    <title>Title</title>
+{% endblock %}
+
+{% block content %}
+<h1>Deleting {{ todo.title }}</h1>
     <form method="post">
         {% csrf_token %}
         <p>Are you sure you want to delete "{{ todo.title }}"?</p>
-        <button type="submit">Yes</button>
+        <button type="submit" class="btn btn-danger">Yes</button>
         <button type="button"><a href="{% url 'todo:my_todos' %}">No</a></button>
     </form>
-</body>
-</html>
+{% endblock %}
